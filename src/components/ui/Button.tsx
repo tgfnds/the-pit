@@ -1,18 +1,32 @@
 import clsx from "clsx";
-import { ReactNode } from "react";
+import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
 
 type ButtonVariant = "primary" | "secondary";
 
 interface Props {
   variant?: ButtonVariant;
-  children?: ReactNode;
 }
 
-export const Button = ({ variant = "primary", children }: Props) => {
-  return <button className={clsx("btn", styles[variant])}>{children}</button>;
-};
+function Button({
+  variant = "primary",
+  children,
+  className,
+  ...props
+}: Props &
+  DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  >) {
+  return (
+    <button className={clsx("btn", styles[variant], className)} {...props}>
+      {children}
+    </button>
+  );
+}
 
 const styles: Record<ButtonVariant, string> = {
   primary: "btn-primary",
-  secondary: "btn-secondary",
+  secondary: "btn-primary btn-outline",
 };
+
+export default Button;
